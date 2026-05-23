@@ -1,9 +1,9 @@
-use windows_display_config::util::{PathInfoExt as _, from_windows_string};
-use windows_display_config::windows::{
+use windows_ccd::util::{PathInfoExt as _, from_windows_string};
+use windows_ccd::windows::{
     DISPLAYCONFIG_SOURCE_DEVICE_NAME, DISPLAYCONFIG_TARGET_DEVICE_NAME, QDC_ONLY_ACTIVE_PATHS,
     QDC_VIRTUAL_MODE_AWARE,
 };
-use windows_display_config::{display_config_get_device_info, query_display_config};
+use windows_ccd::{display_config_get_device_info, query_display_config};
 
 use crate::error::Error;
 use crate::{Dimensions, Monitor, Profile, Result, VIRTUAL_MODE_AWARE};

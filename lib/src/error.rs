@@ -2,12 +2,12 @@ use std::fmt::Display;
 
 #[derive(Debug)]
 pub enum Error {
-    WindowsDisplayConfigError(windows_display_config::Error),
+    WindowsDisplayConfigError(windows_ccd::Error),
     Custom(String),
 }
 
-impl From<windows_display_config::Error> for Error {
-    fn from(value: windows_display_config::Error) -> Self {
+impl From<windows_ccd::Error> for Error {
+    fn from(value: windows_ccd::Error) -> Self {
         Error::WindowsDisplayConfigError(value)
     }
 }

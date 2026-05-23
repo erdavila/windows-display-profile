@@ -5,15 +5,15 @@ all: check test fmt clippy
 check:
   cargo check --workspace \
     --exclude display-profile-lib \
-    --exclude display-profile-cli
+    --exclude display-profile
   @# Checks the different combinations of features:
-  cargo check -p windows-display-config --no-default-features
-  cargo check -p windows-display-config --no-default-features --features dump
+  cargo check -p windows-ccd --no-default-features
+  cargo check -p windows-ccd --no-default-features --features dump
   cargo check -p display-profile-lib --no-default-features
   cargo check -p display-profile-lib --no-default-features --features serde
   cargo check -p display-profile-lib --no-default-features --features dump
-  cargo check -p display-profile-cli --no-default-features
-  cargo check -p display-profile-cli --no-default-features --features dump
+  cargo check -p display-profile --no-default-features
+  cargo check -p display-profile --no-default-features --features dump
 
 
 # Tests all packages
@@ -33,7 +33,7 @@ clippy:
 
 doc *ARGS:
   cargo +nightly doc --all-features --no-deps \
-    -p windows-display-config \
+    -p windows-ccd \
     -p display-profile-lib \
     {{ARGS}}
 
@@ -49,4 +49,4 @@ profile ACTION FILE: (_profile '""' ACTION FILE)
 profile-dump ACTION FILE: (_profile 'dump' ACTION FILE)
 
 _profile FEATURES ACTION FILE:
-  cargo run -q -p display-profile-cli --features {{FEATURES}} -- {{ACTION}} {{FILE}}
+  cargo run -q -p display-profile --features {{FEATURES}} -- {{ACTION}} {{FILE}}

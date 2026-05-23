@@ -1,9 +1,9 @@
 use std::collections::btree_map::Entry;
 use std::collections::{BTreeMap, BTreeSet};
 
-use windows_display_config::util::from_windows_string;
-pub use windows_display_config::util::{PathInfoExt as _, U32Ext as _};
-use windows_display_config::windows::{
+use windows_ccd::util::from_windows_string;
+pub use windows_ccd::util::{PathInfoExt as _, U32Ext as _};
+use windows_ccd::windows::{
     DISPLAYCONFIG_DESKTOP_IMAGE_INFO, DISPLAYCONFIG_MODE_INFO, DISPLAYCONFIG_MODE_INFO_0,
     DISPLAYCONFIG_MODE_INFO_TYPE_DESKTOP_IMAGE, DISPLAYCONFIG_MODE_INFO_TYPE_SOURCE,
     DISPLAYCONFIG_MODE_INFO_TYPE_TARGET, DISPLAYCONFIG_PATH_ACTIVE, DISPLAYCONFIG_PATH_INFO,
@@ -13,7 +13,7 @@ use windows_display_config::windows::{
     SDC_APPLY, SDC_SAVE_TO_DATABASE, SDC_USE_SUPPLIED_DISPLAY_CONFIG, SDC_VALIDATE,
     SDC_VIRTUAL_MODE_AWARE,
 };
-pub use windows_display_config::{
+pub use windows_ccd::{
     DeviceId, GetDeviceInfo, display_config_get_device_info, query_display_config,
     set_display_config,
 };

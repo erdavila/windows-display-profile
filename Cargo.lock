@@ -9,7 +9,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7f202df86484c868dbad7eaa557ef785d5c66295e41b460ef922eca0723b842c"
 
 [[package]]
-name = "display-profile-cli"
+name = "display-profile"
 version = "0.1.0"
 dependencies = [
  "anyhow",
@@ -22,7 +22,7 @@ name = "display-profile-lib"
 version = "0.1.0"
 dependencies = [
  "serde",
- "windows-display-config",
+ "windows-ccd",
 ]
 
 [[package]]
@@ -151,11 +151,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "windows-ccd-example"
+name = "windows-ccd"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "windows-display-config",
+ "serde_json",
+ "windows",
 ]
 
 [[package]]
@@ -178,14 +179,6 @@ dependencies = [
  "windows-link",
  "windows-result",
  "windows-strings",
-]
-
-[[package]]
-name = "windows-display-config"
-version = "0.1.0"
-dependencies = [
- "serde_json",
- "windows",
 ]
 
 [[package]]

@@ -1,14 +1,14 @@
 #![expect(clippy::nonminimal_bool)]
 
 use anyhow::{Result, bail};
-use windows_display_config::util::{PathInfoExt, U32Ext as _, from_windows_string};
-use windows_display_config::windows::{
+use windows_ccd::util::{PathInfoExt, U32Ext as _, from_windows_string};
+use windows_ccd::windows::{
     DISPLAYCONFIG_PATH_ACTIVE, DISPLAYCONFIG_PATH_SUPPORT_VIRTUAL_MODE,
     DISPLAYCONFIG_TARGET_DEVICE_NAME, QDC_ONLY_ACTIVE_PATHS, QDC_VIRTUAL_MODE_AWARE,
     SDC_ALLOW_CHANGES, SDC_APPLY, SDC_USE_SUPPLIED_DISPLAY_CONFIG, SDC_VALIDATE,
     SDC_VIRTUAL_MODE_AWARE,
 };
-use windows_display_config::{
+use windows_ccd::{
     DeviceId, display_config_get_device_info, query_display_config, set_display_config,
 };
 

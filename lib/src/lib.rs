@@ -6,7 +6,7 @@ pub use get_profile::get_profile;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 pub use set_profile::{SetProfileAction, set_profile};
-use windows_display_config::windows::DISPLAYCONFIG_2DREGION;
+use windows_ccd::windows::DISPLAYCONFIG_2DREGION;
 
 mod error;
 mod get_profile;
@@ -129,7 +129,7 @@ impl From<Dimensions> for DISPLAYCONFIG_2DREGION {
 }
 
 define_windows_mapped_enum!(
-    PixelFormat => DISPLAYCONFIG_PIXELFORMAT in windows_display_config::windows {
+    PixelFormat => DISPLAYCONFIG_PIXELFORMAT in windows_ccd::windows {
         #[cfg_attr(feature = "serde", serde(rename = "8BPP"))]
         BitsPerPixel8 => DISPLAYCONFIG_PIXELFORMAT_8BPP,
         #[cfg_attr(feature = "serde", serde(rename = "16BPP"))]
@@ -143,14 +143,14 @@ define_windows_mapped_enum!(
 );
 
 define_windows_mapped_struct!(
-    Position => POINTL in windows_display_config::windows {
+    Position => POINTL in windows_ccd::windows {
         x => x: i32,
         y => y: i32,
     }
 );
 
 define_windows_mapped_enum!(
-    Rotation => DISPLAYCONFIG_ROTATION in windows_display_config::windows {
+    Rotation => DISPLAYCONFIG_ROTATION in windows_ccd::windows {
         IDENTITY => DISPLAYCONFIG_ROTATION_IDENTITY,
         ROTATE90 => DISPLAYCONFIG_ROTATION_ROTATE90,
         ROTATE180 => DISPLAYCONFIG_ROTATION_ROTATE180,
@@ -159,7 +159,7 @@ define_windows_mapped_enum!(
 );
 
 define_windows_mapped_enum!(
-    Scaling => DISPLAYCONFIG_SCALING in windows_display_config::windows {
+    Scaling => DISPLAYCONFIG_SCALING in windows_ccd::windows {
         IDENTITY => DISPLAYCONFIG_SCALING_IDENTITY,
         CENTERED => DISPLAYCONFIG_SCALING_CENTERED,
         STRETCHED => DISPLAYCONFIG_SCALING_STRETCHED,
@@ -170,14 +170,14 @@ define_windows_mapped_enum!(
 );
 
 define_windows_mapped_struct!(
-    Rational => DISPLAYCONFIG_RATIONAL in windows_display_config::windows {
+    Rational => DISPLAYCONFIG_RATIONAL in windows_ccd::windows {
         numerator => Numerator: u32,
         denominator => Denominator: u32,
     }
 );
 
 define_windows_mapped_struct!(
-    Rect => RECTL in windows_display_config::windows {
+    Rect => RECTL in windows_ccd::windows {
         left => left: i32,
         top => top: i32,
         right => right: i32,

@@ -1,5 +1,5 @@
 [package]
-name = "windows-display-config"
+name = "windows-ccd"
 version = "0.1.0"
 edition = "2024"
 
@@ -12,6 +12,9 @@ windows = { workspace = true, features = [
   "Win32_Devices_Display",
   "Win32_Graphics_Gdi",
 ] }
+
+[dev-dependencies]
+anyhow.workspace = true
 
 [lints]
 workspace = true

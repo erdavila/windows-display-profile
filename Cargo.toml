@@ -1,19 +1,18 @@
 [workspace]
 members = [
-    "display-profile/lib",
-    "display-profile/cli",
-    "windows-display-config",
-    "windows-ccd-example",
+    "cli",
+    "lib",
+    "windows-ccd",
 ]
 resolver = "3"
 
 [workspace.dependencies]
 anyhow = "1.0"
-display-profile-lib.path = "display-profile/lib"
+display-profile-lib.path = "lib"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }
 windows = "0.62.2"
-windows-display-config.path = "windows-display-config"
+windows-ccd.path = "windows-ccd"
 
 [workspace.lints.clippy]
 pedantic = "warn"
