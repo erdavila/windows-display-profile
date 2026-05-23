@@ -1,0 +1,14 @@
+[package]
+name = "display-profile-lib"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+dump = [ "windows-display-config/dump" ]
+
+[dependencies]
+serde = { workspace = true, optional = true }
+windows-display-config.workspace = true
+
+[lints]
+workspace = true

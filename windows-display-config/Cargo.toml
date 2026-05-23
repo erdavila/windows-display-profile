@@ -1,0 +1,17 @@
+[package]
+name = "windows-display-config"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+dump = [ "dep:serde_json", "windows/Wdk_Graphics_Direct3D" ]
+
+[dependencies]
+serde_json = { workspace = true, optional = true }
+windows = { workspace = true, features = [
+  "Win32_Devices_Display",
+  "Win32_Graphics_Gdi",
+] }
+
+[lints]
+workspace = true

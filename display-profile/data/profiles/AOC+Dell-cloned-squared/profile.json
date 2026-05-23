@@ -1,0 +1,74 @@
+[
+  {
+    "friendly_device_name": "DELL P2319H",
+    "source_device_name": "\\\\.\\DISPLAY5",
+    "device_path": "\\\\?\\DISPLAY#DELD0D7#4&86cc653&0&UID198147#{e6f07b5f-ee97-4a90-b076-33f57bf4eaa7}",
+    "dimensions": {
+      "width": 1080,
+      "height": 1080
+    },
+    "pixel_format": "32BPP",
+    "position": {
+      "x": 0,
+      "y": 0
+    },
+    "rotation": "ROTATE270",
+    "scaling": "IDENTITY",
+    "refresh_rate": {
+      "numerator": 148500000,
+      "denominator": 2475000
+    },
+    "path_source_size": {
+      "x": 1920,
+      "y": 1080
+    },
+    "desktop_image_region": {
+      "left": 420,
+      "top": 0,
+      "right": 1500,
+      "bottom": 1080
+    },
+    "desktop_image_clip": {
+      "left": 0,
+      "top": 0,
+      "right": 1080,
+      "bottom": 1080
+    }
+  },
+  {
+    "friendly_device_name": "24B35HM2",
+    "source_device_name": "\\\\.\\DISPLAY1",
+    "device_path": "\\\\?\\DISPLAY#AOC2403#5&1dbd9c5&1&UID4353#{e6f07b5f-ee97-4a90-b076-33f57bf4eaa7}",
+    "dimensions": {
+      "width": 1080,
+      "height": 1080
+    },
+    "pixel_format": "32BPP",
+    "position": {
+      "x": 0,
+      "y": 0
+    },
+    "rotation": "IDENTITY",
+    "scaling": "IDENTITY",
+    "refresh_rate": {
+      "numerator": 60,
+      "denominator": 1
+    },
+    "path_source_size": {
+      "x": 1920,
+      "y": 1080
+    },
+    "desktop_image_region": {
+      "left": 420,
+      "top": 0,
+      "right": 1500,
+      "bottom": 1080
+    },
+    "desktop_image_clip": {
+      "left": 0,
+      "top": 0,
+      "right": 1080,
+      "bottom": 1080
+    }
+  }
+]
