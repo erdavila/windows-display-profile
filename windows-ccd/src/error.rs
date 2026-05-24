@@ -1,17 +1,10 @@
-// TODO: Improve the public interface.
-//   It's odd for an Error type to have an `is_ok()` method!
-//   Should the fields be public?
-//   Should the `Win32Error` type be public?
-//   Should `Error` and `Win32Error` be merged?
-
 use std::fmt::Display;
 
-use windows::Win32::Foundation::{
+use crate::Result;
+use crate::windows::{
     ERROR_ACCESS_DENIED, ERROR_GEN_FAILURE, ERROR_INSUFFICIENT_BUFFER, ERROR_INVALID_PARAMETER,
     ERROR_NOT_SUPPORTED, ERROR_SUCCESS, WIN32_ERROR,
 };
-
-use crate::Result;
 
 macro_rules! codes {
     (
@@ -60,15 +53,27 @@ impl Error {
         win32_error.into().to_error(function)
     }
 
-    /// Tells whether this is not really an error.
+    /// The Windows API error code wrapper.
     #[must_use]
-    pub fn is_ok(self) -> bool {
+    pub fn win32_error(self) -> Win32Error {
+        self.win32_error
+    }
+
+    /// The name of the Windows API function that failed.
+    #[must_use]
+    pub fn function(self) -> &'static str {
+        self.function
+    }
+
+    #[cfg(feature = "dump")]
+    #[must_use]
+    pub(crate) fn is_ok(self) -> bool {
         self.win32_error.is_ok()
     }
 
-    /// Tells whether this is really an error.
+    #[cfg(feature = "dump")]
     #[must_use]
-    pub fn is_err(&self) -> bool {
+    pub(crate) fn is_err(&self) -> bool {
         self.win32_error.is_err()
     }
 
@@ -77,7 +82,11 @@ impl Error {
     }
 
     pub(crate) fn to_result_with<T>(self, f: impl FnOnce() -> T) -> Result<T> {
-        if self.is_ok() { Ok(f()) } else { Err(self) }
+        if self.win32_error.is_ok() {
+            Ok(f())
+        } else {
+            Err(self)
+        }
     }
 }
 
@@ -89,30 +98,58 @@ impl Display for Error {
     }
 }
 
+/// A [`WIN32_ERROR`] wrapper.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(crate) struct Win32Error(WIN32_ERROR);
+pub struct Win32Error(WIN32_ERROR);
 
 impl Win32Error {
-    fn is_ok(self) -> bool {
+    /// Tells whether the error is [`ERROR_SUCCESS`].
+    #[must_use]
+    pub fn is_ok(self) -> bool {
         self.0.is_ok()
     }
 
-    fn is_err(self) -> bool {
+    /// Tells whether the error is *not* [`ERROR_SUCCESS`].
+    #[must_use]
+    pub fn is_err(self) -> bool {
         self.0.is_err()
     }
 
-    fn code_number(self) -> u32 {
+    /// The numeric error code.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use windows_ccd::Win32Error;
+    /// use windows_ccd::windows::ERROR_INVALID_PARAMETER;
+    ///
+    /// let e = Win32Error::from(ERROR_INVALID_PARAMETER);
+    /// assert_eq!(e.code_number(), 87);
+    /// ```
+    #[must_use]
+    pub fn code_number(self) -> u32 {
         self.0.0
     }
 
-    fn code_str_and_text(self) -> Option<(&'static str, &'static str)> {
+    /// The name and description of the error.
+    ///
+    /// # Example
+    /// ```
+    /// use windows_ccd::Win32Error;
+    /// use windows_ccd::windows::ERROR_INVALID_PARAMETER;
+    ///
+    /// let e = Win32Error::from(ERROR_INVALID_PARAMETER);
+    /// let (error_code_str, error_text) = e.code_str_and_text().unwrap();
+    /// assert_eq!(error_code_str, "ERROR_INVALID_PARAMETER");
+    /// assert_eq!(error_text, "The combination of parameters and flags that are specified is invalid.");
+    /// ```
+    #[must_use]
+    pub fn code_str_and_text(self) -> Option<(&'static str, &'static str)> {
         CODES
             .iter()
             .find_map(|(code, code_str, text)| (self.0 == *code).then_some((*code_str, *text)))
     }
-}
 
-impl Win32Error {
     fn to_error(self, function: &'static str) -> Error {
         Error {
             win32_error: self,

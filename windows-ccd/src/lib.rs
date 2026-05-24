@@ -4,17 +4,15 @@
 
 use std::mem;
 
-use ::windows::Win32::Devices::Display::{
+pub use crate::device_id::DeviceId;
+pub use crate::error::{Error, Win32Error};
+use crate::windows::{
     DISPLAYCONFIG_DEVICE_INFO_GET_SOURCE_NAME, DISPLAYCONFIG_DEVICE_INFO_GET_TARGET_NAME,
     DISPLAYCONFIG_DEVICE_INFO_HEADER, DISPLAYCONFIG_DEVICE_INFO_TYPE, DISPLAYCONFIG_MODE_INFO,
     DISPLAYCONFIG_PATH_INFO, DISPLAYCONFIG_SOURCE_DEVICE_NAME, DISPLAYCONFIG_TARGET_DEVICE_NAME,
-    DisplayConfigGetDeviceInfo, GetDisplayConfigBufferSizes, QUERY_DISPLAY_CONFIG_FLAGS,
-    QueryDisplayConfig, SET_DISPLAY_CONFIG_FLAGS, SetDisplayConfig,
+    DisplayConfigGetDeviceInfo, ERROR_INSUFFICIENT_BUFFER, GetDisplayConfigBufferSizes,
+    QUERY_DISPLAY_CONFIG_FLAGS, QueryDisplayConfig, SET_DISPLAY_CONFIG_FLAGS, SetDisplayConfig,
 };
-use ::windows::Win32::Foundation::ERROR_INSUFFICIENT_BUFFER;
-
-pub use crate::device_id::DeviceId;
-pub use crate::error::Error;
 
 mod device_id;
 #[cfg(feature = "dump")]

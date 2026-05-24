@@ -1,7 +1,4 @@
-use windows::Win32::Devices::Display::{
-    DISPLAYCONFIG_PATH_SOURCE_INFO, DISPLAYCONFIG_PATH_TARGET_INFO,
-};
-use windows::Win32::Foundation::LUID;
+use crate::windows::{DISPLAYCONFIG_PATH_SOURCE_INFO, DISPLAYCONFIG_PATH_TARGET_INFO, LUID};
 
 /// A convenience type to obtain and pass a display device `adapterId` and `id`.
 #[derive(Debug, Clone, Copy, PartialEq)]
