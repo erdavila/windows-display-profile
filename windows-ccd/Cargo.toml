@@ -1,7 +1,12 @@
 [package]
 name = "windows-ccd"
+description = "Provides some convenience utilities for the [Windows CCD API]"
 version = "0.1.0"
-edition = "2024"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords = ["windows", "ccd", "display", "win32", "api"]
+categories = ["api-bindings", "os::windows-apis"]
 
 [features]
 dump = [ "dep:serde_json", "windows/Wdk_Graphics_Direct3D" ]

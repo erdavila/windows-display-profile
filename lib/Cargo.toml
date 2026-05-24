@@ -1,7 +1,11 @@
 [package]
 name = "display-profile-lib"
+description = "Provides functions and types to get and set a Windows display profile."
 version = "0.1.0"
-edition = "2024"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords = ["windows", "ccd", "display", "monitors"]
 
 [features]
 dump = [ "windows-ccd/dump" ]

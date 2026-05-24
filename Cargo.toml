@@ -6,13 +6,18 @@ members = [
 ]
 resolver = "3"
 
+[workspace.package]
+edition = "2024"
+license = "MIT"
+repository = "https://github.com/erdavila/windows-display-profile"
+
 [workspace.dependencies]
 anyhow = "1.0"
-display-profile-lib.path = "lib"
+display-profile-lib = { path = "lib", version = "0.1.0" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }
 windows = "0.62.2"
-windows-ccd.path = "windows-ccd"
+windows-ccd = { path = "windows-ccd", version = "0.1.0"}
 
 [workspace.lints.clippy]
 pedantic = "warn"

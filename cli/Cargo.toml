@@ -1,7 +1,12 @@
 [package]
 name = "display-profile"
+description = "A CLI tool to save and apply Windows display configurations"
 version = "0.1.0"
-edition = "2024"
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+keywords = ["windows", "ccd", "display", "monitors"]
+categories = ["command-line-utilities"]
 
 [features]
 dump = ["display-profile-lib/dump"]
