@@ -10,7 +10,7 @@ checksum = "7f202df86484c868dbad7eaa557ef785d5c66295e41b460ef922eca0723b842c"
 
 [[package]]
 name = "display-profile"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "display-profile-lib",
@@ -19,7 +19,7 @@ dependencies = [
 
 [[package]]
 name = "display-profile-lib"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "serde",
  "windows-ccd",
@@ -152,7 +152,7 @@ dependencies = [
 
 [[package]]
 name = "windows-ccd"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "serde_json",
