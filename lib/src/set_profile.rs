@@ -69,6 +69,7 @@ impl DeviceNames {
     }
 }
 
+/// Sets the current Windows display profile.
 pub fn set_profile(profile: &Profile, action: SetProfileAction) -> Result<()> {
     let mut flags = QDC_ALL_PATHS;
     if VIRTUAL_MODE_AWARE {

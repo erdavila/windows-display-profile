@@ -1,15 +1,17 @@
 # `windows-display-profile`
 
-## Desenvolvimento
-Dependência: [`just`](https://just.systems/man/en/installation.html)
+Provides a CLI tool and Rust libs related to Windows display configurations:
+* [`display-profile`](./cli/) - a CLI tool to save and apply Windows display configurations.
+* [`display-profile-lib`](./lib/) - a lib with functions and types to get and set Windows display configurations.
+* [`windows-ccd`](./windows-ccd/) - a lib with some convenience utilities to use the [Windows CCD API].
+
+
+## Development
+Dependency: [`just`](https://just.systems/man/en/installation.html)
 
 ```bash
 just --list
 ```
 
-## Referências
-* [`windows` crate](https://microsoft.github.io/windows-docs-rs/doc/windows/index.html)
-* APIs do Windows:
-  * [`QueryDisplayConfig`](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-querydisplayconfig)
-  * [`SetDisplayConfig`](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setdisplayconfig)
-  * [`DisplayConfigGetDeviceInfo`](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-displayconfiggetdeviceinfo)
+
+[Windows CCD API]: https://learn.microsoft.com/en-us/windows-hardware/drivers/display/connecting-and-configuring-displays

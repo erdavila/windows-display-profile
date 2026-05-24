@@ -3,9 +3,13 @@ use windows::Win32::Devices::Display::{
 };
 use windows::Win32::Foundation::LUID;
 
+/// A convenience type to obtain and pass a display device `adapterId` and `id`.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct DeviceId {
+    /// The device `adapterId`.
     pub adapter_id: LUID,
+
+    /// The identifier on the specified adapter.
     pub id: u32,
 }
 

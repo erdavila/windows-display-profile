@@ -1,5 +1,6 @@
-#![expect(clippy::missing_errors_doc)]
 #![cfg_attr(all(doc, not(doctest)), feature(doc_cfg))]
+#![warn(missing_docs)]
+#![doc = include_str!("../README.md")]
 
 use std::mem;
 
@@ -22,8 +23,20 @@ mod error;
 pub mod util;
 pub mod windows;
 
+/// Result type for this crate.
 pub type Result<T, E = error::Error> = std::result::Result<T, E>;
 
+/// Convenience function for the [QueryDisplayConfig] function.
+///
+/// The call to [GetDisplayConfigBufferSizes] and the sizing of the paths and modes buffers are automatically done.
+///
+/// # Errors
+/// Returns an error when [QueryDisplayConfig] fails.
+///
+/// [QueryDisplayConfig]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-querydisplayconfig
+/// [GetDisplayConfigBufferSizes]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getdisplayconfigbuffersizes
+///
+// TODO: currenttopologyid parameter.
 pub fn query_display_config(
     flags: QUERY_DISPLAY_CONFIG_FLAGS,
 ) -> Result<(Vec<DISPLAYCONFIG_PATH_INFO>, Vec<DISPLAYCONFIG_MODE_INFO>)> {
@@ -68,6 +81,12 @@ pub fn query_display_config(
     }
 }
 
+/// Convenience function for the [SetDisplayConfig] function.
+///
+/// # Errors
+/// Returns an error when [SetDisplayConfig] fails.
+///
+/// [SetDisplayConfig]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setdisplayconfig
 pub fn set_display_config(
     paths: Option<&[DISPLAYCONFIG_PATH_INFO]>,
     modes: Option<&[DISPLAYCONFIG_MODE_INFO]>,
@@ -95,12 +114,16 @@ mod private {
     }
 }
 
+/// A trait for the structures that can be returned by the [`display_config_get_device_info`] function.
 pub trait GetDeviceInfo: private::GetDeviceInfoBase {
+    /// The type of the structure.
     const TYPE: DISPLAYCONFIG_DEVICE_INFO_TYPE;
 
+    /// A reference to the [`DISPLAYCONFIG_DEVICE_INFO_HEADER`].
     #[cfg(feature = "dump")]
     fn header(&self) -> &DISPLAYCONFIG_DEVICE_INFO_HEADER;
 
+    /// A mutable reference to the [`DISPLAYCONFIG_DEVICE_INFO_HEADER`].
     fn header_mut(&mut self) -> &mut DISPLAYCONFIG_DEVICE_INFO_HEADER;
 }
 
@@ -130,6 +153,30 @@ impl GetDeviceInfo for DISPLAYCONFIG_TARGET_DEVICE_NAME {
     }
 }
 
+/// Convenience function for the [DisplayConfigGetDeviceInfo] function.
+///
+/// The [`DISPLAYCONFIG_DEVICE_INFO_HEADER`] set up is done automatically based on the structure you want to obtain.
+///
+/// Also, the `adapterId` and `id` are automatically obtained from the [`DISPLAYCONFIG_PATH_SOURCE_INFO`].
+///
+/// # Example
+///
+/// To obtain a [`DISPLAYCONFIG_SOURCE_DEVICE_NAME`]:
+///
+/// ```
+/// use windows_ccd::{display_config_get_device_info, DeviceId, Result};
+/// use windows_ccd::windows::{DISPLAYCONFIG_PATH_SOURCE_INFO, DISPLAYCONFIG_SOURCE_DEVICE_NAME};
+///
+/// fn get_device_name(source_info: DISPLAYCONFIG_PATH_SOURCE_INFO) -> Result<DISPLAYCONFIG_SOURCE_DEVICE_NAME> {
+///     display_config_get_device_info(source_info)
+/// }
+/// ```
+///
+/// # Errors
+/// Returns an error when [DisplayConfigGetDeviceInfo] fails.
+///
+/// [`DISPLAYCONFIG_PATH_SOURCE_INFO`]: crate::windows::DISPLAYCONFIG_PATH_SOURCE_INFO
+/// [DisplayConfigGetDeviceInfo]: https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-displayconfiggetdeviceinfo
 pub fn display_config_get_device_info<T: GetDeviceInfo>(
     device_id: impl Into<DeviceId>,
 ) -> Result<T> {

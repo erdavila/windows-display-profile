@@ -1,6 +1,6 @@
 //! Re-exported types and values from the `windows` crate.
 //!
-//! This list is centainly incomplete.
+//! This list is certainly incomplete.
 
 #[cfg(feature = "dump")]
 pub use windows::Wdk::Graphics::Direct3D::D3DKMDT_VIDEO_SIGNAL_STANDARD;

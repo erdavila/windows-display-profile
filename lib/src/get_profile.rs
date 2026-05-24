@@ -8,6 +8,7 @@ use windows_ccd::{display_config_get_device_info, query_display_config};
 use crate::error::Error;
 use crate::{Dimensions, Monitor, Profile, Result, VIRTUAL_MODE_AWARE};
 
+/// Gets the current Windows display profile.
 pub fn get_profile() -> Result<Profile> {
     let mut flags = QDC_ONLY_ACTIVE_PATHS;
     if VIRTUAL_MODE_AWARE {

@@ -1,3 +1,9 @@
+// TODO: Improve the public interface.
+//   It's odd for an Error type to have an `is_ok()` method!
+//   Should the fields be public?
+//   Should the `Win32Error` type be public?
+//   Should `Error` and `Win32Error` be merged?
+
 use std::fmt::Display;
 
 use windows::Win32::Foundation::{
@@ -42,6 +48,7 @@ static CODES: &[(WIN32_ERROR, &str, &str)] = codes![
     ),
 ];
 
+/// Error type for this crate.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct Error {
     pub(crate) win32_error: Win32Error,
@@ -53,11 +60,13 @@ impl Error {
         win32_error.into().to_error(function)
     }
 
+    /// Tells whether this is not really an error.
     #[must_use]
     pub fn is_ok(self) -> bool {
         self.win32_error.is_ok()
     }
 
+    /// Tells whether this is really an error.
     #[must_use]
     pub fn is_err(&self) -> bool {
         self.win32_error.is_err()

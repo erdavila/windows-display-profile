@@ -1,3 +1,5 @@
+//! Convenience extension methods traits and functions.
+
 use windows::Win32::Devices::Display::{
     DISPLAYCONFIG_PATH_INFO, DISPLAYCONFIG_PATH_SOURCE_INFO, DISPLAYCONFIG_PATH_TARGET_INFO,
 };
@@ -7,17 +9,61 @@ use windows::Win32::Graphics::Gdi::{
     DISPLAYCONFIG_PATH_SUPPORT_VIRTUAL_MODE, DISPLAYCONFIG_PATH_TARGET_MODE_IDX_INVALID,
 };
 
+/// Convenience extension methods for [`DISPLAYCONFIG_PATH_INFO`].
 pub trait PathInfoExt {
+    /// Tells wether the `flags` contain the [`DISPLAYCONFIG_PATH_SUPPORT_VIRTUAL_MODE`] flag.
     fn support_virtual_mode(&self) -> bool;
 
+    /// Obtains the clone group id.
+    ///
+    /// It checks for virtual mode support and handles the bits.
     fn clone_group_id(&self) -> Option<usize>;
+
+    /// Obtains the source mode index.
+    ///
+    /// It checks for virtual mode support and handles the bits, including testing against
+    /// [`DISPLAYCONFIG_PATH_SOURCE_MODE_IDX_INVALID`] or [`DISPLAYCONFIG_PATH_MODE_IDX_INVALID`]
+    /// appropriately.
     fn source_mode_idx(&self) -> Option<usize>;
+
+    /// Obtains the target mode index.
+    ///
+    /// It checks for virtual mode support and handles the bits, including testing against
+    /// [`DISPLAYCONFIG_PATH_TARGET_MODE_IDX_INVALID`] or [`DISPLAYCONFIG_PATH_MODE_IDX_INVALID`]
+    /// appropriately.
     fn target_mode_idx(&self) -> Option<usize>;
+
+    /// Obtains the desktop mode id.
+    ///
+    /// It checks for virtual mode support and handles the bits.
     fn desktop_mode_idx(&self) -> Option<usize>;
 
+    /// Sets the clone group id.
+    ///
+    /// It checks for virtual mode support and handles the bits.
+    ///
+    /// It panics if virtual mode is not supported and `id` is not [`None`].
     fn set_clone_group_id(&mut self, id: Option<usize>);
+
+    /// Sets the source mode index.
+    ///
+    /// It checks for virtual mode support and handles the bits, including using
+    /// [`DISPLAYCONFIG_PATH_SOURCE_MODE_IDX_INVALID`] or [`DISPLAYCONFIG_PATH_MODE_IDX_INVALID`]
+    /// appropriately.
     fn set_source_mode_idx(&mut self, idx: Option<usize>);
+
+    /// Sets the target mode index.
+    ///
+    /// It checks for virtual mode support and handles the bits, including using
+    /// [`DISPLAYCONFIG_PATH_TARGET_MODE_IDX_INVALID`] or [`DISPLAYCONFIG_PATH_MODE_IDX_INVALID`]
+    /// appropriately.
     fn set_target_mode_idx(&mut self, idx: Option<usize>);
+
+    /// Sets the desktop mode id.
+    ///
+    /// It checks for virtual mode support and handles the bits.
+    ///
+    /// It panics if virtual mode is not supported and `id` is not [`None`].
     fn set_desktop_mode_idx(&mut self, idx: Option<usize>);
 }
 
@@ -64,11 +110,28 @@ impl PathInfoExt for DISPLAYCONFIG_PATH_INFO {
     }
 }
 
+/// Convenience extension methods for [`DISPLAYCONFIG_PATH_SOURCE_INFO`].
 pub trait PathSourceInfoExt {
+    /// Obtains the source mode index.
+    ///
+    /// It handles the bits, including testing against
+    /// [`DISPLAYCONFIG_PATH_SOURCE_MODE_IDX_INVALID`] or [`DISPLAYCONFIG_PATH_MODE_IDX_INVALID`]
+    /// appropriately.
     fn source_mode_idx(&self, path_support_virtual_mode: bool) -> Option<usize>;
+
+    /// Obtains the clone group id.
     fn clone_group_id(&self, path_support_virtual_mode: bool) -> Option<usize>;
 
+    /// Sets the source mode index.
+    ///
+    /// It handles the bits, including using
+    /// [`DISPLAYCONFIG_PATH_SOURCE_MODE_IDX_INVALID`] or [`DISPLAYCONFIG_PATH_MODE_IDX_INVALID`]
+    /// appropriately.
     fn set_source_mode_idx(&mut self, idx: Option<usize>, path_support_virtual_mode: bool);
+
+    /// Sets the clone group id.
+    ///
+    /// It panics if `path_support_virtual_mode` is [`false`] and `id` is not [`None`].
     fn set_clone_group_id(&mut self, id: Option<usize>, path_support_virtual_mode: bool);
 }
 
@@ -98,11 +161,28 @@ impl PathSourceInfoExt for DISPLAYCONFIG_PATH_SOURCE_INFO {
     }
 }
 
+/// Convenience extension methods for [`DISPLAYCONFIG_PATH_TARGET_INFO`].
 pub trait PathTargetInfoExt {
+    /// Obtains the target mode index.
+    ///
+    /// It handles the bits, including testing against
+    /// [`DISPLAYCONFIG_PATH_TARGET_MODE_IDX_INVALID`] or [`DISPLAYCONFIG_PATH_MODE_IDX_INVALID`]
+    /// appropriately.
     fn target_mode_idx(&self, path_support_virtual_mode: bool) -> Option<usize>;
+
+    /// Obtains the desktop mode id.
     fn desktop_mode_idx(&self, path_support_virtual_mode: bool) -> Option<usize>;
 
+    /// Sets the target mode index.
+    ///
+    /// It handles the bits, including using
+    /// [`DISPLAYCONFIG_PATH_TARGET_MODE_IDX_INVALID`] or [`DISPLAYCONFIG_PATH_MODE_IDX_INVALID`]
+    /// appropriately.
     fn set_target_mode_idx(&mut self, idx: Option<usize>, path_support_virtual_mode: bool);
+
+    /// Sets the desktop mode id.
+    ///
+    /// It panics if `path_support_virtual_mode` is [`false`] and `id` is not [`None`].
     fn set_desktop_mode_idx(&mut self, idx: Option<usize>, path_support_virtual_mode: bool);
 }
 
@@ -262,13 +342,21 @@ impl PathInfoUnionValuesAccessor for DISPLAYCONFIG_PATH_TARGET_INFO {
     }
 }
 
+/// Convenience extension methods for [`u32`] (for bit handling).
 pub trait U32Ext {
+    /// Checks whether this value contains the bits set in `flag`.
     fn contains(self, flag: u32) -> bool;
 
+    /// Obtains the lower 16 bits.
     fn lower_u16(self) -> u16;
+
+    /// Obtains the higher 16 bits.
     fn higher_u16(self) -> u16;
 
+    /// Sets the lower 16 bits.
     fn set_lower_u16(&mut self, lower: u16);
+
+    /// Sets the higher 16 bits.
     fn set_higher_u16(&mut self, higher: u16);
 }
 impl U32Ext for u32 {
@@ -295,6 +383,7 @@ impl U32Ext for u32 {
     }
 }
 
+/// Creates a [`String`] from a nul-terminated UTF-16-encoded [`u16`] buffer.
 #[must_use]
 pub fn from_windows_string(s: &[u16]) -> String {
     let len = s.iter().position(|&c| c == 0).unwrap_or(s.len());

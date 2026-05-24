@@ -1,5 +1,6 @@
-#![expect(clippy::missing_errors_doc)]
 #![cfg_attr(all(doc, not(doctest)), feature(doc_cfg))]
+#![expect(clippy::missing_errors_doc)]
+#![doc = include_str!("../README.md")]
 
 pub use error::Error;
 pub use get_profile::get_profile;
